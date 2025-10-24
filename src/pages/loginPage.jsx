@@ -1,14 +1,39 @@
+import axios, { Axios } from "axios";
 import React from "react";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+
 
 function LoginPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  function login() {
-    console.log(email, password);
-    
-  }
+  const navigate = useNavigate();
+
+
+  async function login() {
+        try {
+          const res = await axios.post("http://localhost:3000/api/users/login", {
+            email,
+            password,
+          });
+
+          console.log(res.data);
+          localStorage.setItem("token", res.data.token);
+
+          if (res.data.role === "admin") {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
+
+          toast.success("Login successful! Welcome back 🎉");
+        } catch (error) {
+          console.error("Login error:", error);
+          toast.error(error.response?.data?.message || "Login failed!");
+        }
+      }
+
 
 
 

@@ -4,9 +4,9 @@ import { Link, Route, Routes } from "react-router-dom";
 export default function AdminPage() {
   return (
     <div className="w-full h-full max-h-fullbg-[red] flex bg-accent">
-      <div className="w-[300px] h-full bg-accent">
-        <div className="w-f h-[100px] flex items-center text-2xl text-primary">
-          <img src="/logo.png" className="h-full" alt="" />
+      <div className="w-[300px] h-full bg-accent ml-[20px]">
+        <div className="w-f h-[100px] flex items-center text-2xl text-primary gap-[10px]">
+          <img src="/logo.png" className="w-[40px]" alt="" />
           <h1>Admin Panel</h1>
 
         </div>
