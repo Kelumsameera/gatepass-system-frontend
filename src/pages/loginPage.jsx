@@ -107,7 +107,7 @@ function LoginPage() {
           <p className="text-sm text-accent/80 flex  justify-center gap-1">
             Don&apos;t have an account?  
             <Link
-              to="/signup"
+              to="/register"
               className="italic hover:underline hover:text-blue-600 transition-colors duration-150"
             >
                Sign up

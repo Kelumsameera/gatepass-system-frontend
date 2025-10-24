@@ -4,6 +4,7 @@ import HomePage from "./pages/homePage.jsx";
 import AdminPage from "./pages/adminPage.jsx";
 import LoginPage from "./pages/loginPage.jsx";
 import  { Toaster } from 'react-hot-toast';
+import RegisterPage from "./pages/registerPage.jsx";
 export default function App() {
   return (
     <BrowserRouter>
@@ -13,12 +14,10 @@ export default function App() {
           <Route path="/*" element={<HomePage />} />
           <Route path="/admin/*" element={<AdminPage />} />
           <Route path="/login/*" element={<LoginPage />} />
+          <Route path="/register/*" element={<RegisterPage />} />          
         </Routes>
 
-        {/* Optional test message outside the router */}
-        <div className="absolute bottom-4 text-[--color-accent] text-lg">
-          ✅ Tailwind v4.1 + React is working!
-        </div>
+       
       </div>
     </BrowserRouter>
   );

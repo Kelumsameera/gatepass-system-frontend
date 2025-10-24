@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* === Custom Design Tokens === */
 @theme {
   --color-primary: #ffffff;
   --color-secondary: #155dfc;
@@ -8,9 +9,25 @@
   --color-red: #e7000b;
   --color-gold: #ffcc00;
   --color-blue: #0f2557;
+
+  --font-sans: "Inter", system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --text-base: 16px;
+  --font-weight-normal: 400;
+  --line-height-base: 24px;
 }
 
-/* Optional custom scrollbar */
+/* === Base Typography === */
+body {
+  font-family: var(--font-open-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-base);
+  color: var(--color-accent);
+  background-color: var(--color-primary);
+}
+
+/* === Optional custom scrollbar === */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -20,4 +37,7 @@
 ::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
