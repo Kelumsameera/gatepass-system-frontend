@@ -1,95 +1,77 @@
-import { Route, Routes } from "react-router-dom";
-import Header from "../components/Heder";
+import { Link, Route, Routes } from "react-router-dom";
+import LoginPage from "./loginPage";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col w-full h-screen bg-[--color-primary] text-[--color-secondary]">
-      {/* Header (fixed top) */}
-      <header className="sticky top-0 z-20 shadow-md">
-        <Header />
-      </header>
+    <div className="relative flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-[url(/bg1.png)] bg-cover bg-center bg-no-repeat text-white">
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto px-6 py-8">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <section className="text-center space-y-6">
-                <h1 className="text-4xl font-bold text-[--color-accent]">
-                  🏠 Home Page
-                </h1>
-                <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">
-                  Welcome to the{" "}
-                  <span className="text-[--color-gold] font-semibold">
+      {/* 🔹 Overlay Background (fixed typo in bg--accent) */}
+      <div className="absolute inset-0  backdrop-blur-sm"></div>
+
+      {/* 🔹 Main Content */}
+      <main className="relative flex-1 flex items-center justify-center px-6 py-8 z-10">
+        <div className="w-full max-w-3xl text-center bg-white/10 backdrop-blur-2xl border border-accent/40 rounded-2xl shadow-black/30 shadow-2xl p-10 animate-fade-in">
+
+          <Routes>
+            {/* 🏠 Home Route */}
+            <Route
+              path="/"
+              element={
+                <section className="space-y-6">
+                  <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-green-400 via-blue-400 to-purple-500 bg-clip-text text-transparent drop-shadow-lg">
                     Gate Pass Management System
-                  </span>
-                  . This system helps automate and manage gate entries for
-                  employees, visitors, and vehicles.
-                </p>
-                <button className="bg-[--color-accent] text-white px-6 py-3 rounded-xl hover:bg-[--color-gold] hover:text-[--color-secondary] transition-all">
-                  Get Started
-                </button>
-              </section>
-            }
-          />
-          <Route
-            path="/products"
-            element={
-              <section className="text-center space-y-4">
-                <h1 className="text-3xl font-bold text-[--color-accent]">
-                  🛍️ Products
-                </h1>
-                <p className="text-gray-600 dark:text-gray-300">
-                  Here you can view and manage your listed products.
-                </p>
-              </section>
-            }
-          />
-          <Route
-            path="/about"
-            element={
-              <section className="text-center space-y-4">
-                <h1 className="text-3xl font-bold text-[--color-accent]">
-                  ℹ️ About Us
-                </h1>
-                <p className="text-gray-600 dark:text-gray-300">
-                  Our system ensures secure and efficient access management
-                  using QR or RFID technology.
-                </p>
-              </section>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <section className="text-center space-y-4">
-                <h1 className="text-3xl font-bold text-[--color-accent]">
-                  📞 Contact
-                </h1>
-                <p className="text-gray-600 dark:text-gray-300">
-                  Get in touch with us for support or system integration.
-                </p>
-                <a
-                  href="mailto:support@gatepass.com"
-                  className="text-[--color-gold] font-medium hover:underline"
-                >
-                  support@gatepass.com
-                </a>
-              </section>
-            }
-          />
-          <Route
-            path="/*"
-            element={
-              <section className="text-center mt-20">
-                <h1 className="text-5xl font-bold text-red-500">404</h1>
-                <p className="text-lg text-gray-500 mt-2">Page not found</p>
-              </section>
-            }
-          />
-        </Routes>
+                  </h1>
+
+                  <p className="max-w-2xl mx-auto text-base md:text-lg text-accent leading-relaxed">
+                    Manage and automate the process of granting access to
+                      employee, visitor, and vehicle
+                    
+                    gate entries with a secure and efficient system.
+                  </p>
+
+                  <div className="pt-6">
+                    <Link
+                      to="/login"
+                      className="px-8 py-3 rounded-full text-lg font-semibold bg-gradient-to-r from-blue-500 to-green-400 text-white hover:from-green-500 hover:to-blue-400 shadow-lg hover:shadow-green-400/40 transition-all duration-300"
+                    >
+                      🚀 Get Started
+                    </Link>
+                  </div>
+                </section>
+              }
+            />
+
+            {/* 🔑 Login Route */}
+            <Route path="/login" element={<LoginPage />} />
+
+            {/* ❌ 404 Page */}
+            <Route
+              path="*"
+              element={
+                <section className="text-center space-y-3 mt-10">
+                  <h1 className="text-6xl font-extrabold text-red-400 drop-shadow-lg">
+                    404
+                  </h1>
+                  <p className="text-lg text-gray-300">
+                    Oops! The page you’re looking for doesn’t exist.
+                  </p>
+                  <Link
+                    to="/"
+                    className="text-green-300 hover:underline font-medium"
+                  >
+                    Go Back Home
+                  </Link>
+                </section>
+              }
+            />
+          </Routes>
+        </div>
       </main>
+
+      {/* 🔹 Footer */}
+      <footer className="relative z-10 text-center py-4 text-sm text-accent border-t border-accent w-full">
+        © {new Date().getFullYear()} FlexiPass | All Rights Reserved
+      </footer>
     </div>
   );
 }

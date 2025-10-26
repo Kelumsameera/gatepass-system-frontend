@@ -10,7 +10,7 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 
-function AdminPage() {
+function DimoPage() {
   const [activePage, setActivePage] = useState("dashboard");
 
   const handleLogout = () => {
@@ -309,4 +309,4 @@ function AdminPage() {
   );
 }
 
-export default AdminPage;
+export default DimoPage;
