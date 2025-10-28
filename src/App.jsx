@@ -8,6 +8,7 @@ import RegisterPage from "./pages/registerPage.jsx";
 import Test from "./components/test.jsx";
 import ExecativePage from "./pages/execativePage.jsx";
 import DimoPage from "./pages/dimo.jsx";
+import EmployePage from "./pages/employePage.jsx";
 export default function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/register/*" element={<RegisterPage />} /> 
           <Route path="/test" element={<Test />} />
           <Route path="dimo" element={<DimoPage />} />
+          <Route path="/employee" element={<EmployePage />} />
 
         </Routes>
 
