@@ -9,6 +9,7 @@ import Test from "./components/test.jsx";
 import ExecativePage from "./pages/execativePage.jsx";
 import DimoPage from "./pages/dimo.jsx";
 import EmployePage from "./pages/employePage.jsx";
+import GatepassRequest from "./pages/gatepassRequest.jsx";
 export default function App() {
   return (
     <BrowserRouter>
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/test" element={<Test />} />
           <Route path="dimo" element={<DimoPage />} />
           <Route path="/employee" element={<EmployePage />} />
+          <Route path="/gatepass" element={<GatepassRequest />} />
 
         </Routes>
 

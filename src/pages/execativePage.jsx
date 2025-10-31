@@ -1,159 +1,214 @@
+// ExecutivePage.jsx
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { LuLayoutDashboard, LuRefreshCw } from "react-icons/lu";
+import {
+  Link,
+  Route,
+  Routes,
+  useLocation,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
+import { LuLayoutDashboard, LuRefreshCw, LuLogOut } from "react-icons/lu";
 import { MdAddCircleOutline } from "react-icons/md";
-import { User, UserCircle } from "lucide-react";
-import { FcApproval, FcRefresh } from "react-icons/fc";
+import { UserCircle } from "lucide-react";
 import { AiOutlineFileProtect } from "react-icons/ai";
+import { HiViewList } from "react-icons/hi";
+
+// ✅ Reusable Section Component (no left padding)
+const Section = ({ title, children }) => (
+  <section className="w-full">
+    <h1 className="text-2xl font-bold text-gray-800 mb-6">{title}</h1>
+    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+      {children}
+    </div>
+  </section>
+);
+
+// ✅ Dashboard Section (aligned left)
+const Dashboard = () => (
+  <Section title="Manage approvals, view reports, and handle executive tasks.">
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora eveniet odio amet excepturi repudiandae? Dolores, laborum provident. Beatae sit a deserunt ea repellendus fugit voluptatum, harum ab sequi earum accusamus!</p>
+    <div className="mt-8">
+      <h2 className="text-lg font-semibold text-gray-800 mb-3">
+        Recent Activity
+      </h2>
+      <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+        {[
+          { text: "New user registration", time: "2 min ago" },
+          { text: "Report submitted", time: "15 min ago" },
+          { text: "Approval completed", time: "1 hour ago" },
+        ].map((item, i) => (
+          <div
+            key={i}
+            className="flex justify-between items-center py-2 border-b last:border-0"
+          >
+            <span className="text-gray-700">{item.text}</span>
+            <span className="text-gray-500 text-sm">{item.time}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+);
+
+const Requests = () => (
+  <Section title="Requests">
+    <p>List of all incoming requests awaiting review...</p>
+  </Section>
+);
+
+const Profile = () => (
+  <Section title="Profile">
+    <p>Executive profile settings and information.</p>
+  </Section>
+);
+
+const Pending = () => (
+  <Section title="Pending">
+    <p>Items pending approval or action.</p>
+  </Section>
+);
+
+const Reports = () => (
+  <Section title="Approval">
+    <p>View and approve reports.</p>
+  </Section>
+);
 
 export default function ExecutivePage() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const isActive = (path) =>
+    location.pathname.startsWith(path)
+      ? "bg-primary text-accent"
+      : "hover:bg-primary hover:text-accent";
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/login");
+  };
 
   return (
-    <div className="w-full flex flex-col h-screen bg-primary text-accent">
-      {/* 🔹 Top Navbar */}
-      <div className="flex justify-between items-center h-[70px] bg-accent text-primary px-6 shadow-md">
+    <div className="flex flex-col h-screen bg-gray-50 text-accent overflow-hidden">
+      {/* Header */}
+      <header className="flex items-center justify-between h-[70px] bg-accent text-primary px-4 md:px-6 shadow-md z-50">
         <button
+          aria-label="Toggle menu"
           className="md:hidden text-3xl focus:outline-none"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          onClick={() => setIsSidebarOpen((v) => !v)}
         >
-          ☰
+          <HiViewList />
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <img
             src="https://flexicare.com/wp-content/uploads/Flexicare-Emblem-White.svg"
-            alt="Logo"
-            className="h-[40px]"
+            alt="Flexi Pass Logo"
+            className="h-10"
           />
-          <h1 className="text-xl font-semibold">Flexi Pass</h1>
-          <h2 className="text-2xl font-bold ml-6">Welcome, Executive 👋</h2>
+          <h1 className="text-xl font-semibold hidden sm:block">Flexi Pass</h1>
+          <h2 className="text-lg font-bold ml-4">Welcome, Executive</h2>
         </div>
-      </div>
 
-      {/* 🔹 Main Content Area */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
-        <div
-          className={`bg-accent text-primary text-xl w-[240px] flex flex-col p-4 space-y-2 transition-all duration-300 ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0`}
+        <button
+          aria-label="Logout"
+          className="hidden md:block hover:text-red-500 transition"
+          onClick={handleLogout}
         >
-          <div className="flex flex-col gap-2">
+          <LuLogOut />
+        </button>
+      </header>
+
+      <div className="flex flex-1 overflow-hidden relative">
+        {/* Sidebar */}
+        <aside
+          className={`fixed md:static inset-y-0 left-0 z-40 w-64 bg-accent text-primary flex flex-col p-4 transition-transform duration-300 ease-in-out ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          }`}
+        >
+          <nav className="flex flex-col space-y-2 text-lg">
             <Link
               to="/executive/dashboard"
-              className="flex items-center gap-2 hover:bg-primary hover:text-accent rounded-lg px-3 py-2 transition"
+              onClick={() => setIsSidebarOpen(false)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition ${isActive(
+                "/executive/dashboard"
+              )}`}
             >
-              <LuLayoutDashboard className="text-2xl text-white" />
-              Dashboard
+              <LuLayoutDashboard /> Dashboard
             </Link>
 
             <Link
               to="/executive/requests"
-              className="flex items-center gap-2 hover:bg-primary hover:text-accent rounded-lg px-3 py-2 transition"
+              onClick={() => setIsSidebarOpen(false)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition ${isActive(
+                "/executive/requests"
+              )}`}
             >
-              <MdAddCircleOutline className="text-2xl text-green" />
-              Requests
+              <MdAddCircleOutline className="text-green-500" /> Requests
             </Link>
 
             <Link
               to="/executive/profile"
-              className="flex items-center gap-2 hover:bg-primary hover:text-accent rounded-lg px-3 py-2 transition"
+              onClick={() => setIsSidebarOpen(false)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition ${isActive(
+                "/executive/profile"
+              )}`}
             >
-              <UserCircle className="text-2xl text-blue-500" />
-              Profile
+              <UserCircle className="text-blue-500" /> Profile
             </Link>
 
             <Link
               to="/executive/pending"
-              className="flex items-center gap-2 hover:bg-primary hover:text-accent rounded-lg px-3 py-2 transition"
+              onClick={() => setIsSidebarOpen(false)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition ${isActive(
+                "/executive/pending"
+              )}`}
             >
-              {/* Fc icons keep their original color automatically */}
-              <LuRefreshCw className="text-2xl text-amber-300" />
-              Pending
+              <LuRefreshCw className="text-amber-400" /> Pending
             </Link>
 
             <Link
               to="/executive/reports"
-              className="flex items-center gap-2 hover:bg-primary hover:text-accent rounded-lg px-3 py-2 transition"
+              onClick={() => setIsSidebarOpen(false)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition ${isActive(
+                "/executive/reports"
+              )}`}
             >
-              <AiOutlineFileProtect className="text-2xl text-emerald-500" />
-              Approval
+              <AiOutlineFileProtect className="text-emerald-500" /> Approval
             </Link>
 
-            <Link
-              to="/"
-              className="flex items-center gap-2 hover:bg-primary hover:text-accent rounded-lg px-3 py-2 transition"
+            <button
+              onClick={handleLogout}
+              className="md:hidden flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-primary hover:text-accent transition"
             >
-              <User className="text-2xl text-white" />
-              Logout
-            </Link>
-          </div>
-        </div>
+              <LuLogOut /> Logout
+            </button>
+          </nav>
+        </aside>
 
-        {/* Main Content */}
-        <main className="flex-1 bg-primary overflow-y-auto p-6">
-          <p className="mt-4 text-accent/80">
-            Here you can manage approvals, view reports, and handle executive
-            tasks.
-          </p>
-          <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-gray-800 mb-4">Dashboard</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                <h3 className="text-gray-500 text-sm font-medium">
-                  Total Users
-                </h3>
-                <p className="text-3xl font-bold text-gray-800 mt-2">1,234</p>
-                <p className="text-green-600 text-sm mt-2">
-                  ↑ 12% from last month
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                <h3 className="text-gray-500 text-sm font-medium">
-                  Pending Approvals
-                </h3>
-                <p className="text-3xl font-bold text-gray-800 mt-2">45</p>
-                <p className="text-orange-600 text-sm mt-2">
-                  Requires attention
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                <h3 className="text-gray-500 text-sm font-medium">Reports</h3>
-                <p className="text-3xl font-bold text-gray-800 mt-2">23</p>
-                <p className="text-blue-600 text-sm mt-2">5 new today</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                <h3 className="text-gray-500 text-sm font-medium">
-                  Active Sessions
-                </h3>
-                <p className="text-3xl font-bold text-gray-800 mt-2">789</p>
-                <p className="text-green-600 text-sm mt-2">
-                  ↑ 8% from yesterday
-                </p>
-              </div>
-            </div>
+        {/* Mobile overlay */}
+        {isSidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-30 md:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
 
-            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 mt-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                Recent Activity
-              </h2>
-              <div className="space-y-3 text-xl">
-                <div className="flex items-center justify-between py-2 border-b">
-                  <span className="text-gray-700">New user registration</span>
-                  <span className="text-gray-500 text-sm">2 minutes ago</span>
-                </div>
-                <div className="flex items-center justify-between py-2 border-b">
-                  <span className="text-gray-700">Report submitted</span>
-                  <span className="text-gray-500 text-sm">15 minutes ago</span>
-                </div>
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-gray-700">Approval completed</span>
-                  <span className="text-gray-500 text-sm">1 hour ago</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* ✅ Main content (no left padding, flush alignment) */}
+        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-6 md:ml-0">
+          <Routes>
+            <Route
+              path="/"
+              element={<Navigate to="/executive/dashboard" replace />}
+            />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/requests" element={<Requests />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/pending" element={<Pending />} />
+            <Route path="/reports" element={<Reports />} />
+          </Routes>
         </main>
       </div>
     </div>
