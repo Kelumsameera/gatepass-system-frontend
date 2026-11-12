@@ -9,7 +9,7 @@ React 19 + Vite 7 + Tailwind CSS 4 interface for employee gate-pass requests and
 - Gate-pass request form with client-side field checks
 - React Router page navigation
 
-> **Work in progress:** The gate-pass form currently does not send an API request. In the current `main` branch it may show a misleading success message; a fix is being reviewed separately. UI routes are not a substitute for server-side authorization. Do not treat this as a production-ready approval workflow.
+> **Work in progress:** The gate-pass form currently does not send an API request. The current form displays a preview-only message instead of a false success notification. UI routes are not a substitute for server-side authorization. Do not treat this as a production-ready approval workflow.
 
 ## Getting started
 
@@ -42,7 +42,7 @@ Vite prints the local development URL, normally `http://localhost:5173`.
 
 Backend repository: [gatepass-system-backend](https://github.com/Kelumsameera/gatepass-system-backend).
 
-The login screen currently targets `http://localhost:3000/api/users/login` directly. It stores the returned token in browser localStorage; this needs a security review, and the redirect checks `res.data.role` even though the backend responds with `res.data.user.role`. The request form has not yet been wired to `POST /api/gatepass`.
+The login screen currently targets `http://localhost:3000/api/users/login` directly. It stores the returned token in browser localStorage; this needs a security review, and the admin redirect now checks `res.data.user?.role`, matching the backend response. The request form has not yet been wired to `POST /api/gatepass`.
 
 Before production use, implement a consistent API configuration, protected routes, secure authentication/session handling, actual request submission, error states and end-to-end role testing.
 
