@@ -21,7 +21,7 @@ function LoginPage() {
           console.log(res.data);
           localStorage.setItem("token", res.data.token);
 
-          if (res.data.role === "admin") {
+          if (res.data.user?.role === "admin") {
             navigate("/admin");
           } else {
             navigate("/");
