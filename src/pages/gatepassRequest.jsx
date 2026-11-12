@@ -45,12 +45,8 @@ export default function GatepassRequest() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('Gatepass Request:', formData);
-      alert('Gatepass request submitted successfully!');
-      setFormData({
-        name: '', employeeNo: '', department: '', nicNo: '',
-        date: '', timeOut: '', timeIn: '', place: '', reason: ''
-      });
+      // The form is not connected to the backend yet. Preserve user input.
+      alert('This form is a preview. Your gatepass request has not been submitted yet.');
     }
   };
 
